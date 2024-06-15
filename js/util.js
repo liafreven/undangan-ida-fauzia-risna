@@ -185,9 +185,9 @@ export const util = (() => {
         });
 
         document.querySelector('body').style.overflowY = 'scroll';
-        if (storage('information').get('info')) {
-            document.getElementById('information').remove();
-        }
+        // if (storage('information').get('info')) {
+        //     document.getElementById('information').remove();
+        // }
 
         const token = document.querySelector('body').getAttribute('data-key');
         if (!token || token.length === 0) {
