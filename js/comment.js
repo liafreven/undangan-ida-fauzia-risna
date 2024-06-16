@@ -99,7 +99,7 @@ export const comment = (() => {
 
         const presence = document.getElementById('form-presence');
         if (!id && presence && presence.value == "0") {
-            alert('Please select presence');
+            alert('Tolong isi kehadiran');
             return;
         }
 
@@ -117,12 +117,10 @@ export const comment = (() => {
 
         const btn = util.disableButton(button);
 
-        const response = await request(HTTP_POST, '/api/comment')
-            .token(session.get('token'))
+        const response = await request(HTTP_POST)
             .body({
-                id: id,
                 name: name.value,
-                presence: presence ? presence.value === "1" : true,
+                presence: presence.value === "1",
                 comment: form.value
             })
             .then();
@@ -138,14 +136,14 @@ export const comment = (() => {
 
         btn.restore();
 
-        if (response?.code === 201) {
-            owns.set(response.data.uuid, response.data.own);
-            form.value = null;
-            if (presence) {
-                presence.value = "0";
-            }
-            comment();
+        if (presence) {
+            presence.value = "0";
         }
+
+        name.value = "";
+        form.value = "";
+
+        comment();
     };
 
     const cancel = (id) => {
@@ -220,23 +218,16 @@ export const comment = (() => {
     const comment = async () => {
         card.renderLoading();
 
-        await request(HTTP_GET, `/api/comment?per=${pagination.getPer()}&next=${pagination.getNext()}`)
-            .token(session.get('token'))
+        await request(HTTP_GET)
             .then((res) => {
-                if (res.code !== 200) {
-                    return;
-                }
-
                 const comments = document.getElementById('comments');
-                pagination.setResultData(res.data.length);
 
-                if (res.data.length === 0) {
+                if (res.length === 0) {
                     comments.innerHTML = `<div class="h6 text-center fw-bold p-4 my-3 bg-theme-${theme.isDarkMode('dark', 'light')} rounded-4 shadow">Yuk bagikan undangan ini biar banyak komentarnya</div>`;
                     return;
                 }
 
-                comments.innerHTML = res.data.map((comment) => card.renderContent(comment)).join('');
-                res.data.map((c) => card.fetchTracker(c));
+                comments.innerHTML = res.map((comment) => card.renderContent(comment)).join('');
             });
     };
 

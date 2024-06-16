@@ -69,7 +69,7 @@ export const util = (() => {
         div.classList.add('m-2');
         div.innerHTML = `<p class="mt-0 mb-1 mx-0 p-0 text-light">${guest.getAttribute('data-message')}</p><h2 class="text-light">${escapeHtml(name)}</h2>`;
 
-        // document.getElementById('form-name').value = name;
+        document.getElementById('form-name').value = name;
         guest.appendChild(div);
     };
 
@@ -162,21 +162,6 @@ export const util = (() => {
         })();
     };
 
-    const storeConfig = async (token) => {
-        storage('session').set('token', token);
-
-        const config = storage('config');
-        return await request(HTTP_GET, '/api/config')
-            .token(token)
-            .then((res) => {
-                for (let [key, value] of Object.entries(res.data)) {
-                    config.set(key, value);
-                }
-
-                return res.code;
-            });
-    };
-
     const open = async (button) => {
         button.disabled = true;
         confetti({
@@ -189,12 +174,6 @@ export const util = (() => {
         //     document.getElementById('information').remove();
         // }
 
-        const token = document.querySelector('body').getAttribute('data-key');
-        if (!token || token.length === 0) {
-            document.getElementById('ucapan').remove();
-            document.querySelector('a.nav-link[href="#ucapan"]').closest('li.nav-item').remove();
-        }
-
         AOS.init();
 
         countDownDate();
@@ -206,15 +185,8 @@ export const util = (() => {
         theme.check();
         theme.showButtonChangeTheme();
 
-        if (!token || token.length === 0) {
-            return;
-        }
-
-        const status = await storeConfig(token);
-        if (status === 200) {
-            animation();
-            await comment.comment();
-        }
+        animation();
+        await comment.comment();
     };
 
     const close = () => {

@@ -21,7 +21,7 @@ export const request = (method, path) => {
 
     return {
         then(...params) {
-            return fetch(url + path, req)
+            return fetch(url + (path || ''), req)
                 .then((res) => res.json())
                 .then((res) => {
                     if (res.error) {

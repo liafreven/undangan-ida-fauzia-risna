@@ -68,7 +68,7 @@
     <script src="./js/app.js" type="module" defer></script>
 </head>
 
-<body data-key="bfb9cfea33ab7ae21a315fbd6f065a815d3e20ff2f007aa2ca" data-url="https://api.ulems.my.id/" style="overflow-y: hidden;">
+<body data-url="https://guestbook.deno.dev/ida-julhikmah" style="overflow-y: hidden;">
     <!-- If not using comments, you can remove the data-key and data-url attributes -->
 
     <!-- Navbar Bottom -->
@@ -376,6 +376,44 @@
                 </div>
             </div>
         </div>
+        <!-- Comments -->
+        <section class="m-0 px-0 pb-0 pt-3" id="ucapan">
+            <div class="container">
+
+                <div class="card-body border rounded-4 shadow p-3">
+                    <h1 class="font-esthetic text-center mb-3" style="font-size: 3rem;">Ucapan & Doa</h1>
+                    <div class="mb-1" id="balasan"></div>
+
+                    <div class="mb-3">
+                        <label for="form-name" class="form-label">Nama</label>
+                        <input type="text" class="form-control shadow-sm" id="form-name" placeholder="Isikan Nama Anda">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="form-presence" class="form-label" id="label-kehadiran">Kehadiran</label>
+                        <select class="form-select shadow-sm" id="form-presence">
+                            <option value="0" selected>Konfirmasi Kehadiran</option>
+                            <option value="1">Hadir</option>
+                            <option value="2">Berhalangan</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="form-comment" class="form-label">Ucapan & Doa</label>
+                        <textarea class="form-control shadow-sm" id="form-comment" rows="4" placeholder="Tulis Ucapan & Doa"></textarea>
+                    </div>
+
+                    <div class="d-grid">
+                        <button class="btn btn-primary btn-sm rounded-3 shadow m-1" onclick="comment.send(this)">
+                            <i class="fa-solid fa-paper-plane me-1"></i>Send
+                        </button>
+                    </div>
+                </div>
+
+                <div class="my-3 pt-3" id="comments"></div>
+            </div>
+        </section>
+
         <!-- Wave Separator -->
         <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="color-theme-black">
             <path fill="currentColor" fill-opacity="1" d="M0,224L34.3,234.7C68.6,245,137,267,206,266.7C274.3,267,343,245,411,234.7C480,224,549,224,617,213.3C685.7,203,754,181,823,197.3C891.4,213,960,267,1029,266.7C1097.1,267,1166,213,1234,192C1302.9,171,1371,181,1406,186.7L1440,192L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path>

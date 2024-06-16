@@ -3,6 +3,30 @@ import { theme } from './theme.js';
 import { storage } from './storage.js';
 import { pagination } from './pagination.js';
 
+function timeAgo(timestamp) {
+  const now = new Date();
+  const time = new Date(timestamp);
+  const seconds = Math.floor((now - time) / 1000);
+  const intervals = [
+    { label: 'year', seconds: 31536000 },
+    { label: 'month', seconds: 2592000 },
+    { label: 'week', seconds: 604800 },
+    { label: 'day', seconds: 86400 },
+    { label: 'hour', seconds: 3600 },
+    { label: 'minute', seconds: 60 },
+    { label: 'second', seconds: 1 }
+  ];
+
+  for (const interval of intervals) {
+    const count = Math.floor(seconds / interval.seconds);
+    if (count > 0) {
+      return `${count} ${interval.label}${count !== 1 ? 's' : ''} ago`;
+    }
+  }
+
+  return 'just now';
+}
+
 export const card = (() => {
 
     const user = storage('user');
@@ -137,19 +161,16 @@ export const card = (() => {
         return `
         <div class="d-flex flex-wrap justify-content-between align-items-center">
             <p class="text-${text} text-truncate m-0 p-0" style="font-size: 0.95rem;">${renderTitle(comment, is_parent)}</p>
-            <small class="text-${text} m-0 p-0" style="font-size: 0.75rem;">${comment.created_at}</small>
+            <small class="text-${text} m-0 p-0" style="font-size: 0.75rem;">${timeAgo(comment.timestamp)}</small>
         </div>
         <hr class="text-${text} my-1">
-        <p class="text-${text} mt-0 mb-1 mx-0 p-0" style="white-space: pre-wrap !important" id="content-${comment.uuid}">${convertMarkdownToHTML(util.escapeHtml(comment.comment))}</p>`;
+        <p class="text-${text} mt-0 mb-1 mx-0 p-0" style="white-space: pre-wrap !important">${convertMarkdownToHTML(util.escapeHtml(comment.comment))}</p>`;
     };
 
     const renderContent = (comment, is_parent) => {
         return `
-        <div ${renderHeader(is_parent)} id="${comment.uuid}">
+        <div ${renderHeader(is_parent)}>
             ${renderBody(comment, is_parent)}
-            ${renderTracker(comment)}
-            ${renderButton(comment)}
-            ${comment.comments.map((c) => renderContent(c, false)).join('')}
         </div>`;
     };
 
